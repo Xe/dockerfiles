@@ -1,7 +1,0 @@
-#!/bin/sh
-
-while true ; do
-	echo "Hello at $(date)"
-	sleep 5
-done
-

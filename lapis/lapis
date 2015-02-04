@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd /app/src
-
-export LAPIS_OPENRESTY=/app/openresty/nginx/sbin/nginx
-
-lapis server docker
