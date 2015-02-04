@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /oleg
+/usr/local/bin/olegdb -config /oleg/db.conf
