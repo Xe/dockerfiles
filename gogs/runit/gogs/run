@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /gogs/install
+setuser git ./gogs web
