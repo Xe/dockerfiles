@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /app/src
+
+gimlet -x app
