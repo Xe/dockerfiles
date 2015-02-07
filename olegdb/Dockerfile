@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends build-essential
     cd OlegDB-v.0.1.5 && make && make install
 
 ADD olegdb.conf /oleg/db.conf
+ADD runit/ /etc/service
 
 EXPOSE 38080
 
