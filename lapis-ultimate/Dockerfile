@@ -14,7 +14,7 @@ RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRES
     make && make install && rm -rf ngx_openresty-$OPENRESTY_VERSION* &&\
     luarocks install moonscript &&\
     luarocks install moonbox &&\
-    npm install -g bower &&\
+    npm install -g bower && npm install -g coffee-script &&\
     ln -s /usr/bin/nodejs /usr/local/bin/node
 
 ADD lapis /etc/service/lapis/run
@@ -30,3 +30,4 @@ ONBUILD ADD bower.json /app/src/bower.json
 ONBUILD RUN cd /app/src && bower --allow-root install
 ONBUILD ADD . /app/src
 ONBUILD RUN moonc /app/src
+ONBUILD RUN cd /app/src/static && find -name "*.coffee" -exec coffee -c {} \;
