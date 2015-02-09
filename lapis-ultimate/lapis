@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd /app/src
+
+export LAPIS_OPENRESTY=/app/openresty/nginx/sbin/nginx
+source moonbox env enter
+
+[ -e migrations.lua ] && lapis migrate
+lapis server docker
