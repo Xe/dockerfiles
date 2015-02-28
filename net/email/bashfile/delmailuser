@@ -1,0 +1,38 @@
+#!/bin/bash
+# Delmailuser @3846masa
+
+trap 'echo ""; stty echo; exit -1;' SIGINT
+
+if [[ $# -ne 1 ]]; then
+  echo >&2 "Usage: $0 user@example.com"
+  exit 1
+fi
+
+if ! [[ $1 =~ ^[a-zA-Z0-9]+@[^@]+ ]]; then
+  echo >&2 "$0: Invalid value."
+  exit 1
+else
+  MAILADDR=$1
+fi
+
+if ! `grep ^${MAILADDR} /etc/postfix/vmaps > /dev/null 2>&1`; then
+  echo >&2 "$0: ${MAILADDR} is not registed."
+  exit 1
+fi
+
+cp /etc/dovecot/passwd /etc/dovecot/passwd.old
+grep -v "^${MAILADDR}" /etc/dovecot/passwd.old > /etc/dovecot/passwd
+
+cp /etc/postfix/vmaps /etc/postfix/vmaps.old
+grep -v "^${MAILADDR}" /etc/postfix/vmaps.old > /etc/postfix/vmaps
+postmap /etc/postfix/vmaps
+
+rm -rf /etc/dovecot/passwd.old /etc/postfix/vmaps.old
+
+IFS='@' eval 'USERINFO=($MAILADDR)'
+rm -rf "/home/vmail/${USERINFO[1]}/${USERINFO[0]}/"
+
+postfix reload > /dev/null 2>&1
+dovecot reload
+
+echo "Deleted ${MAILADDR}"

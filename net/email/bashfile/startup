@@ -1,0 +1,46 @@
+#!/bin/bash
+#startup for postfix/dovecot @3846masa
+
+trap 'echo ""; stty echo; exit -1;' SIGINT
+
+echo -n "Press enter to continue... "; read;
+
+echo -n "Hostname: "; read HOST;
+
+if ! [[ $HOST =~ .+\.[a-zA-Z]+$ ]]; then
+  echo >&2 "Invalid value."
+  exit 1
+fi
+
+echo -n "Domainname: "; read DOMAIN;
+
+if ! [[ $DOMAIN =~ .+\.[a-zA-Z]+$ ]]; then
+  echo >&2 "Invalid value."
+  exit 1
+fi
+
+POSTFIX_OPT=`sed -e "s/^myhostname.*$/myhostname = ${HOST}/" /etc/postfix/main.cf`
+POSTFIX_OPT=`echo -e "${POSTFIX_OPT}" | sed -e "s/^mydomain.*$/mydomain = ${DOMAIN}/"`
+
+echo -e "${POSTFIX_OPT}" > /etc/postfix/main.cf
+
+chown vmail.vmail /home/vmail -R
+chmod 700 /home/vmail -R
+postfix start
+dovecot
+
+echo -e -n "\033[32m"
+cat <<"EOF"
+##########################################
+  MailServer powered by postfix/dovecot
+##########################################
+
+- To add user, exec "addmailuser user@example.com".
+- To delete user, exec "delmailuser user@example.com".
+- To escape terminal, send Ctrl+P and Ctrl+Q.
+- To re-enter terminal, exec "docker attach [container]".
+
+EOF
+echo -e -n "\033[0m"
+
+/bin/bash

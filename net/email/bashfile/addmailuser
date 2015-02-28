@@ -1,0 +1,46 @@
+#!/bin/bash
+# Addmailuser @3846masa
+
+trap 'echo ""; stty echo; exit -1;' SIGINT
+
+if [[ $# -ne 1 ]]; then
+  echo >&2 "Usage: $0 user@example.com"
+  exit 1
+fi
+
+if ! [[ $1 =~ ^[a-zA-Z0-9]+@[^@]+ ]]; then
+  echo >&2 "$0: Invalid value."
+  exit 1
+else
+  MAILADDR=$1
+fi
+
+if `grep ^${MAILADDR} /etc/postfix/vmaps > /dev/null 2>&1`; then
+  echo >&2 "$0: ${MAILADDR} is already registed."
+  exit 1
+fi
+
+echo -n "Enter user password: "; read -s PASSWD; echo "";
+echo -n "Retype user password: "; read -s PASSWD_RETYPE; echo "";
+
+if [[ $PASSWD != $PASSWD_RETYPE ]]; then
+  echo "Sorry, passwords do not match.";
+  exit 1;
+fi
+
+PASSWD_MD5=$(echo -e "${PASSWD}\n${PASSWD}" | doveadm pw)
+echo "${MAILADDR}:${PASSWD_MD5}:5000:5000" >> /etc/dovecot/passwd
+
+IFS='@' eval 'USERINFO=($MAILADDR)'
+echo "${MAILADDR}    ${USERINFO[1]}/${USERINFO[0]}/" >> /etc/postfix/vmaps
+
+postmap /etc/postfix/vmaps
+
+mkdir -p "/home/vmail/${USERINFO[1]}/${USERINFO[0]}/"{new,cur,tmp}
+chmod 700 /home/vmail/ -R
+chown vmail.vmail /home/vmail/ -R
+
+postfix reload > /dev/null 2>&1
+dovecot reload
+
+echo "Added ${MAILADDR}"
