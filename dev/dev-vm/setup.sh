@@ -11,7 +11,6 @@ function setlink
 rm ~/.zshrc
 
 #set links
-setlink .profile
 setlink .zshrc
 setlink .zsh
 setlink .vim
@@ -32,12 +31,14 @@ rm ~/.vimrc-temp
 (cd ~/.vim/bundle/YouCompleteMe; ./install.sh --clang-completer)
 (cd ~/.vim/bundle/vimproc.vim; make)
 
-vim +GoInstallBinaries
+vim +GoInstallBinaries +qall
 
 # Golang stuff
 (mkdir -p ~/go/{pkg,bin,src})
 
 go get github.com/mattn/todo
+go get github.com/motemen/ghq
+go get github.com/Xe/tools/...
 
 echo "Set up!"
 

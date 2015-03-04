@@ -27,20 +27,14 @@ ENV PATH /usr/local/go/bin:$PATH
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/local/bin/docker && \
     chmod 555 /usr/local/bin/docker
 
-USER xena
-
 WORKDIR /home/xena
 
 # Dotfiles
-RUN mkdir code
-RUN git clone https://github.com/Xe/dotfiles code/dotfiles
+RUN setuser xena mkdir code
+RUN setuser xena git clone https://github.com/Xe/dotfiles code/dotfiles
 
 ADD setup.sh /home/xena/
-RUN bash setup.sh
-
-RUN vim +GoInstallBinaries +qall
-
-USER root
+RUN setuser xena bash setup.sh && rm setup.sh
 
 RUN chsh xena -s /bin/zsh
 
