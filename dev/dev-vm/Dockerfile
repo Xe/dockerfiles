@@ -34,7 +34,7 @@ RUN setuser xena mkdir code
 RUN setuser xena git clone https://github.com/Xe/dotfiles code/dotfiles
 
 ADD setup.sh /home/xena/
-RUN setuser xena bash setup.sh && rm setup.sh
+RUN setuser xena bash setup.sh
 
 RUN chsh xena -s /bin/zsh
 
