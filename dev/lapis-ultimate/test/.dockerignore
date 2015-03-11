@@ -1,1 +1,5 @@
-.gitignore
+*.lua
+*.js
+bower_components
+.git
+.moonbox
