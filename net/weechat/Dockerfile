@@ -1,12 +1,15 @@
-FROM flitter/init
+FROM ubuntu:trusty
 
-RUN apt-get update && apt-get -y upgrade && apt-get -y install dvtm dtach weechat
-RUN useradd --create-home xena && echo 'xena:user' | chpasswd
-
-ADD start.sh /
-ADD http://repo.or.cz/w/dvtm.git/blob_plain/HEAD:/dvtm.info /tmp/
-RUN tic -s /tmp/dvtm.info
+RUN echo "deb http://ppa.launchpad.net/nesthib/weechat-stable/ubuntu trusty main " >> /etc/apt/sources.list &&\
+    apt-get update && apt-get -y --force-yes install weechat &&\
+    useradd --create-home xena && echo 'xena:user' | chpasswd
 
 ENV HOME /home/xena
+ENV LANGUAGE en_US
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_us.utf-8
+ENV LC_CTYPE en_US.UTF-8
+ENV TERM screen-256color
 
-CMD /sbin/my_init setuser xena /start.sh
+USER xena
+CMD weechat
