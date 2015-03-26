@@ -1,0 +1,16 @@
+#!/bin/sh
+
+export DRONE_DATABASE_DRIVER="postgres"
+export DRONE_DATABASE_DATASOURCE="host=$DB_PORT_5432_TCP_ADDR user=postgres dbname=drone sslmode=disable"
+export DRONE_SERVER_PORT=:8080
+
+if [ -z "$DOCKER_HOST" ]; then
+	echo "No docker host"
+	exit 1
+else
+	export DRONE_WORKER_NODES=$DOCKER_HOST
+fi
+
+echo 'Everything is okay. Starting up drone!'
+
+droned

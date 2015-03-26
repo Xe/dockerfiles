@@ -1,0 +1,16 @@
+[Unit]
+Description=Drone.io continunous integration and delivery
+After=docker.service
+After=drone-db.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker run --rm --link drone-db:pg xena/drone-fixdb
+ExecStop=/usr/bin/fleetctl destroy drone-db-fix.service
+
+[Install]
+WantedBy=multi-user.target
+
+[X-Fleet]
+MachineOf=drone-db.service

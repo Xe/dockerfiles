@@ -1,0 +1,22 @@
+[Unit]
+Description=Drone.io continunous integration and delivery
+After=docker.service
+After=drone-db.service
+After=drone-db-fix.service
+Requires=docker.service
+
+# You need to edit this for your github/gitlab api keys
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill drone
+ExecStartPre=-/usr/bin/docker rm drone
+ExecStartPre=/usr/bin/docker pull xena/drone
+ExecStart=/usr/bin/docker run --name drone --link drone-db:db --hostname drone -v /var/run/docker.sock:/docker.sock -e DOCKER_HOST="unix:///docker.sock" -P xena/drone
+ExecStop=/usr/bin/docker rm -f drone
+
+[Install]
+WantedBy=multi-user.target
+
+[X-Fleet]
+MachineOf=drone-db.service
