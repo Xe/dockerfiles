@@ -1,0 +1,7 @@
+#!/bin/sh
+
+chmod -R a+rw /minecraft
+
+cd /minecraft/data
+
+setuser minecraft java -jar /minecraft/minecraft_server.1.8.4.jar
