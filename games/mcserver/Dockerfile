@@ -5,13 +5,14 @@ RUN dnf -y install tar gzip
 ADD http://builds.cuberite.org/job/Cuberite%20Linux%20x64%20Master/lastSuccessfulBuild/artifact/Cuberite.tar.gz /cuberite.tgz
 
 RUN tar xf /cuberite.tgz &&\
-    mv /MCServer /minecraft
+    mkdir -p /minecraft/data &&\
+    mv /MCServer /minecraft/server
 
-ADD settings.ini /minecraft/settings.ini
+ADD settings.ini /minecraft/data/settings.ini
 
-WORKDIR /minecraft
+WORKDIR /minecraft/data
 
 EXPOSE 8080
 EXPOSE 25565
 
-CMD ./MCServer
+CMD ../server/MCServer
