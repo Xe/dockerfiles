@@ -14,5 +14,6 @@ WORKDIR /minecraft/data
 
 EXPOSE 8080
 EXPOSE 25565
+EXPOSE 25575/udp
 
 CMD ../server/MCServer
