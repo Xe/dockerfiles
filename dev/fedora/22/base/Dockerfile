@@ -1,7 +1,7 @@
 FROM fedora:22
 
 RUN dnf -y groupinstall "Development Tools" &&\
-    dnf -y install tar zsh git python wget openssl-devel vim-enhanced tmux dtach cmake python-devel mercurial lua luarocks gcc-c++ xz clang-devel &&\
+    dnf -y install tar zsh git python wget openssl-devel vim-enhanced tmux dtach cmake python-devel mercurial lua luarocks gcc-c++ xz clang-devel php &&\
     useradd --create-home xena && \
     echo 'root:screencast' | chpasswd && \
     echo 'xena:user' | chpasswd && \
@@ -34,6 +34,12 @@ RUN dnf -y install dnf-plugins-core &&\
     dnf -y install lua-moonscript &&\
     yes | dnf copr enable avsej/nim &&\
     dnf -y install nim
+
+# Add Tini
+ENV TINI_VERSION v0.5.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
 
 USER xena
 CMD /bin/zsh
