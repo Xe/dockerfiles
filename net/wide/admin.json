@@ -1,0 +1,33 @@
+{
+    "Name": "admin",
+    "Password": "d1bfca21893c908e64fabda01d71294b1ccdcaa7",
+    "Salt": "dnoyeb",
+    "Email": "",
+    "Gravatar": "d41d8cd98f00b204e9800998ecf8427e",
+    "Workspace": "/wide/data/users/admin",
+    "Locale": "en_US",
+    "GoFormat": "gofmt",
+    "FontFamily": "Helvetica",
+    "FontSize": "13px",
+    "Theme": "default",
+    "Keymap": "wide",
+    "Created": 1414080000000000000,
+    "Updated": 1414080000000000000,
+    "Lived": 1414080000000000000,
+    "Editor": {
+        "FontFamily": "Consolas, 'Courier New', monospace",
+        "FontSize": "13px",
+        "LineHeight": "17px",
+        "Theme": "wide",
+        "TabSize": "4"
+    },
+    "LatestSessionContent": {
+        "FileTree": [],
+        "Files": [],
+        "CurrentFile": "",
+        "FileTreeLayout": null,
+        "EditorLayout": null,
+        "OutlineLayout": null,
+        "BottomLayout": null
+    }
+}

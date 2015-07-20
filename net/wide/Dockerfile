@@ -9,6 +9,7 @@ RUN adduser wide \
 USER wide
 ADD ./wide-1.3.0-linux-amd64.tar.gz /wide/app
 ADD ./style.css /wide/app/static/user/admin/style.css
+ADD ./admin.json /wide/admin.json
 
 USER root
 ADD ./start.sh /
