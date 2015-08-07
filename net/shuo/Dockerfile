@@ -2,7 +2,7 @@ FROM node:0
 
 RUN useradd --create-home shuo
 
-RUN npm install -g shuo
+RUN npm install -g shuo@0.53.0
 
 ENV HOME /home/shuo
 

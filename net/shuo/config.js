@@ -246,7 +246,7 @@ module.exports = {
 		// @default  113
 		//
 		port: 113
-	}
+	},
 
 	//
 	// Themes
