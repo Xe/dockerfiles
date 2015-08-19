@@ -35,6 +35,10 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 
+# Golang compilers
+RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz && \
+    tar xf go1.5.linux-amd64.tar.gz && rm go1.5.linux-amd64.tar.gz
+
 # Set up vim
 ADD setup.sh /opt/xena/setup.sh
 ADD ./vimplugins.lua /opt/xena/vimplugins.lua
@@ -45,10 +49,6 @@ RUN chmod 777 /opt/xena/setup.sh &&\
 # Some of my servers still use docker 1.6.0
 RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -O /usr/local/bin/docker && \
     chmod 555 /usr/local/bin/docker
-
-# Golang compilers
-RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz && \
-    tar xf go1.5.linux-amd64.tar.gz && rm go1.5.linux-amd64.tar.gz
 
 # Not needed?
 RUN dnf -y install dnf-plugins-core &&\
@@ -63,6 +63,3 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-stati
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 ENV INITSYSTEM tini
-
-USER xena
-CMD /bin/zsh

@@ -1,3 +1,5 @@
-FROM xena/dotfiles:f22
+FROM xena/base
 
-RUN curl -s https://static.rust-lang.org/rustup.sh | sh
+USER root
+RUN yes | dnf copr enable alonid/rust &&\
+    dnf install -y rust
