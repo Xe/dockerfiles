@@ -21,8 +21,8 @@ RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.3.0 -O /usr/local/b
     chmod 555 /usr/local/bin/docker
 
 # Golang compilers
-RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz && \
-    tar xf go1.4.2.linux-amd64.tar.gz && rm go1.4.2.linux-amd64.tar.gz
+RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz && \
+    tar xf go1.5.linux-amd64.tar.gz && rm go1.5.linux-amd64.tar.gz
 
 ADD setup.sh /opt/xena/setup.sh
 ADD ./vimplugins.lua /opt/xena/vimplugins.lua
@@ -37,7 +37,7 @@ RUN dnf -y install dnf-plugins-core &&\
 
 # Add Tini
 ENV TINI_VERSION v0.5.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static /tini
 RUN chmod +x /tini
 ENTRYPOINT ["/tini", "--"]
 
