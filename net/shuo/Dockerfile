@@ -1,8 +1,8 @@
-FROM node:0
+FROM node:4.0
 
 RUN useradd --create-home shuo
 
-RUN npm install -g shuo@0.53.0
+RUN npm install -g shuo@0.53.1
 
 ENV HOME /home/shuo
 
