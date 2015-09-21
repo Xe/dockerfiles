@@ -1,3 +1,0 @@
-#!/bin/sh
-
-quasselcore --configdir=/var/lib/quassel

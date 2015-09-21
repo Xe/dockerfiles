@@ -1,4 +1,0 @@
-#!/bin/sh
-
-chown -R rabbitmq:rabbitmq /data
-exec rabbitmq-server $@
