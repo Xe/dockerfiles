@@ -1,11 +1,11 @@
-FROM flitter/init
+FROM phusion/baseimage:0.9.17
 MAINTAINER Xena <xena@yolo-swag.com>
 
 RUN apt-get update && \
     apt-get -y install libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make curl git-core luarocks lua-sec nodejs npm lua-discount
 
 ENV SRC_DIR /opt
-ENV OPENRESTY_VERSION 1.7.7.2
+ENV OPENRESTY_VERSION 1.9.3.2
 ENV OPENRESTY_PREFIX /app/openresty
 
 RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz &&\
