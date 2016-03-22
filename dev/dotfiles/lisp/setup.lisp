@@ -1,0 +1,1 @@
+(quicklisp-quickstart:install)
