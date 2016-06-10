@@ -1,19 +1,21 @@
-FROM alpine:3.3
+FROM alpine:3.4
 
-ENV PATH=$PATH:/opt/Nim/bin:/root/.nimble/bin
+ENV PATH=$PATH:/opt/nim/bin:/root/.nimble/bin
+ENV NIM_VERSION 0.14.0
+ENV NIM_DOWNLOAD_URL http://nim-lang.org/download/nim-0.14.0.tar.xz
 
 RUN apk update && \
-    apk add libc-dev gcc curl libgcc git perl && \
-    rm -rf /var/cache/apk/*
+    apk add libc-dev gcc curl libgcc git perl xz tar && \
+    rm -rf /var/cache/apk/* && \
+    mkdir -p /opt && cd /opt && \
+    curl -LO $NIM_DOWNLOAD_URL && \
+    /usr/bin/tar xJf nim-$NIM_VERSION.tar.xz && rm -f nim-$NIM_VERSION.tar.xz && \
+    mv nim-0.14.0 nim && cd nim && \
+    sh build.sh && \
+    cd .. && git clone https://github.com/nim-lang/nimble.git && \
+    cd nimble && \
+    nim -d:release c -r src/nimble -y install
 
-RUN mkdir -p /opt && cd /opt && \
-    curl -LO https://github.com/nim-lang/Nim/archive/v0.13.0.tar.gz && \
-    tar zxf v0.13.0.tar.gz && rm -f v0.13.0.tar.gz && \
-    mv Nim-0.13.0 Nim && cd Nim && \
-    git clone --depth 1 git://github.com/nim-lang/csources && \
-    cd csources && sh build.sh && \
-    cd .. && ./bin/nim c koch && ./koch boot -d:release && \
-    nim e install_nimble.nims && \
-    rm -rf /opt/Nim/tests
-
-WORKDIR /src
+LABEL language Nim
+LABEL version $NIM_VERSION
+LABEL distro Alpine Linux
