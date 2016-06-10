@@ -1,4 +1,4 @@
-FROM xena/alpine:3.0
+FROM alpine:3.3
 
 RUN apk update
 RUN apk add rtorrent rsync openssh
@@ -15,4 +15,3 @@ ADD rtorrent.rc /home/torrent/.rtorrent.rc
 USER torrent
 
 VOLUME /torrents
-
