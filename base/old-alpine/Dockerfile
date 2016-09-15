@@ -1,13 +1,20 @@
-FROM alpine
+FROM alpine:edge
 
-# Add Tini
-ENV TINI_VERSION v0.8.3
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static /tini
-RUN chmod +x /tini
+RUN apk add -U --no-cache tini
+
 ADD ./entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
 
+# Add Backplane agent
+ENV BACKPLANE_AGENT_VERSION 1.0.8
+RUN apk add -U --no-cache wget ca-certificates \
+ && wget https://bin.equinox.io/c/jWahGASjoRq/backplane-stable-linux-amd64.tgz \
+ && tar xf backplane-stable-linux-amd64.tgz \
+ && mv backplane /usr/bin/backplane \
+ && rm backplane-stable-linux-amd64.tgz \
+ && apk del wget ca-certificates
+
 # update to edge
 ADD repositories /etc/apk/repositories
-RUN apk update && apk upgrade && apk add runit
+RUN apk add -U --no-cache runit
 ADD runit/ /etc/system

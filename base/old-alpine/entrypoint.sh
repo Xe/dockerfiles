@@ -4,4 +4,4 @@ set -e
 
 runsvdir /etc/system &
 
-exec /tini -- $*
+exec /sbin/tini -- $*
