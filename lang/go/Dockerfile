@@ -2,15 +2,15 @@ FROM xena/alpine
 
 RUN apk add --no-cache ca-certificates
 
-ENV GOLANG_VERSION 1.7.1
+ENV GOLANG_VERSION 1.7.4
 ENV GOLANG_SRC_URL https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz
-ENV GOLANG_SRC_SHA256 2b843f133b81b7995f26d0cb64bbdbb9d0704b90c44df45f844d28881ad442d3
+ENV GOLANG_SRC_SHA256 4c189111e9ba651a2bb3ee868aa881fab36b2f2da3409e80885ca758a6b614cc
 
 # https://golang.org/issue/14851
 COPY no-pic.patch /
 
 RUN set -ex \
-	&& apk add --no-cache --virtual .build-deps \
+	&& apk add --no-cache --virtual go-build-deps \
 		bash \
 		gcc \
 		musl-dev \
@@ -28,7 +28,7 @@ RUN set -ex \
 	&& ./make.bash \
 	\
 	&& rm -rf /*.patch \
-	&& apk del .build-deps
+	&& apk del go-build-deps
 
 ENV GOPATH /go
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
