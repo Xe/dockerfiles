@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -n "$ROUTE_TOKEN" ]
+then
+	/usr/bin/httpagent -token "$ROUTE_TOKEN" -backend "$ROUTE_BACKEND" -server "$ROUTE_FRONTEND"
+else
+	sleep 999d
+fi
