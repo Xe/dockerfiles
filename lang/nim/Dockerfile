@@ -5,7 +5,7 @@ ENV NIM_VERSION 0.16.0
 ENV NIM_DOWNLOAD_URL http://nim-lang.org/download/nim-$NIM_VERSION.tar.xz
 
 RUN apk add --no-cache --virtual nim-compiler-deps libc-dev gcc curl libgcc git perl xz tar && \
-    apk add --no-cache libressl ca-certificates && \
+    apk add --no-cache libressl ca-certificates libcrypto1.0 libssl1.0 && \
     rm -rf /var/cache/apk/* && \
     mkdir -p /opt && cd /opt && \
     curl -LO $NIM_DOWNLOAD_URL && \
