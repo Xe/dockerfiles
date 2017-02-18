@@ -17,13 +17,6 @@ run %q[ apk add -U --no-cache wget ca-certificates \
      && rm backplane-stable-linux-amd64.tgz \
      && apk del wget ]
 
-run %q[ apk add -U --no-cache curl \
-     && cd /usr/bin && curl https://xena.greedo.xeserv.us/files/httpagent.gz -o httpagent.gz \
-     && gunzip httpagent.gz \
-     && chmod +x httpagent \
-     && ./httpagent -help > /dev/null 2>&1 \
-      ; apk del curl && echo upd: 2017-02-05 ]
-
 # Add glue and vardene
 run %q[ apk add -U --no-cache wget \
      && cd /usr/bin && wget https://xena.greedo.xeserv.us/files/glue \
