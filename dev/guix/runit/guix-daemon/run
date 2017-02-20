@@ -1,3 +1,0 @@
-#!/bin/sh
-
-~root/.guix-profile/bin/guix-daemon --build-users-group=guixbuild

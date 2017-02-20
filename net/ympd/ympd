@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ympd -h $MPD_PORT_6600_TCP_ADDR

@@ -1,1 +1,0 @@
-FROM xena/lapis-ultimate
