@@ -2,6 +2,7 @@ from "alpine:edge"
 
 copy "repositories", "/etc/apk/repositories"
 copy "runit/", "/etc/system"
+copy "bin/", "/bin"
 
 run "apk upgrade --no-cache"
 run "apk add --no-cache --virtual xe-alpine-base tini ca-certificates runit libc6-compat"
@@ -17,15 +18,10 @@ run %q[ apk add -U --no-cache wget ca-certificates \
      && rm backplane-stable-linux-amd64.tgz \
      && apk del wget ]
 
-# Add glue and vardene
+# Add glue
 run %q[ apk add -U --no-cache wget \
      && cd /usr/bin && wget https://xena.greedo.xeserv.us/files/glue \
      && chmod a+x /usr/bin/glue \
-     && wget https://xena.greedo.xeserv.us/files/vardene \
-     && chmod a+x /usr/bin/vardene \
-     && cd /usr/local/share/ca-certificates \
-     && wget https://xena.greedo.xeserv.us/files/ca.pem -O xeserv_ca.pem \
-     && update-ca-certificates \
      && apk del wget ]
 
 copy "./entrypoint.sh", "/usr/sbin/entrypoint.sh"
