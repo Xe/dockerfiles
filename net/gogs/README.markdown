@@ -1,1 +1,0 @@
-# Gogs in Docker

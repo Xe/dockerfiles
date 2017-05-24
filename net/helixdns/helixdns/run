@@ -1,6 +1,0 @@
-#!/bin/sh
-
-export HOST={ETCD_PORT_4001_TCP_ADDR:-$HOST}
-export ETCDADDR="http://$HOST:4001"
-
-/go/bin/helixdns -etcd-address $ETCDADDR -port 53 -forward 8.8.8.8
