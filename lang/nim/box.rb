@@ -5,7 +5,7 @@ from "xena/alpine"
 
 # update envvars
 env "PATH" => "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/nim/bin:/root/.nimble/bin",
-    "NIM_VERSION" => "0.16.0"
+    "NIM_VERSION" => "0.17.2"
 
 # system deps
 run %q[ apk add --no-cache --virtual nim-compiler-deps wget libc-dev gcc libgcc git perl xz tar \
@@ -22,4 +22,4 @@ run %q[ mkdir -p /opt && cd /opt \
 
 # shipit
 flatten
-tag "xena/nim:0.16.0"
+tag "xena/nim:0.17.2"
