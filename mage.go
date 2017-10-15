@@ -24,17 +24,18 @@ func init() {
 	wd = lwd
 }
 
-func shouldWork(ctx context.Context, dir string, cmdName string, args ...string) {
+func shouldWork(ctx context.Context, env []string, dir string, cmdName string, args ...string) {
 	loc, err := exec.LookPath(cmdName)
 	qod.ANE(err)
 
 	cmd := exec.CommandContext(ctx, loc, args...)
 	cmd.Dir = dir
+	cmd.Env = env
 
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	log.Printf("starting process, pwd: %s, cmd: %s, args: %v", dir, loc, args)
+	log.Printf("starting process, env: %v, pwd: %s, cmd: %s, args: %v", env, dir, loc, args)
 	err = cmd.Run()
 	qod.ANE(err)
 }
@@ -58,11 +59,11 @@ func Base() {
 	dir := filepath.Join(wd, "./base/alpine")
 
 	// pull base alpine edge image for rebuilds
-	shouldWork(ctx, dir, "docker", "pull", "alpine:edge")
+	shouldWork(ctx, nil, dir, "docker", "pull", "alpine:edge")
 
 	// build and push
-	shouldWork(ctx, dir, "box", "box.rb")
-	shouldWork(ctx, dir, "docker", "push", "xena/alpine:latest")
+	shouldWork(ctx, nil, dir, "box", "box.rb")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/alpine:latest")
 }
 
 // Go builds the 'thick' go image xena/go.
@@ -73,11 +74,11 @@ func Go() {
 
 	dir := filepath.Join(wd, "./lang/go")
 
-	// build and push
-	shouldWork(ctx, dir, "box", "box.rb")
-	shouldWork(ctx, dir, "docker", "push", "xena/go:1.9")
-	// XXX when go 1.9.1, etc comes out
-	//shouldWork(ctx, dir, "docker", "push", "xena/go:1.9.1")
+	for _, ver := range []string{"1.8.4", "1.9.1"} {
+		e := []string{"GO_VERSION=" + ver, "BOX_INCLUDE_ENV=GO_VERSION"}
+		shouldWork(ctx, e, dir, "box", "box.rb")
+		shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+ver)
+	}
 }
 
 // GoMini builds the 'mini' version of the compiler using golang.org/x/build/version.
@@ -89,8 +90,8 @@ func GoMini() {
 	dir := filepath.Join(wd, "./lang/go-mini")
 
 	// build and push
-	shouldWork(ctx, dir, "box", "box.rb")
-	shouldWork(ctx, dir, "docker", "push", "xena/go-mini:1.9")
+	shouldWork(ctx, nil, dir, "box", "box.rb")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:1.9")
 	// XXX when go 1.9.1, etc comes out
 	//shouldWork(ctx, dir, "docker", "push", "xena/go:1.9.1")
 }
@@ -104,6 +105,6 @@ func Nim() {
 	dir := filepath.Join(wd, "./lang/nim")
 
 	// build and push
-	shouldWork(ctx, dir, "box", "box.rb")
-	shouldWork(ctx, dir, "docker", "push", "xena/nim:0.17.2")
+	shouldWork(ctx, nil, dir, "box", "box.rb")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:0.17.2")
 }
