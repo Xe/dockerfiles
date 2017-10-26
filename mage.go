@@ -74,7 +74,7 @@ func Go() {
 
 	dir := filepath.Join(wd, "./lang/go")
 
-	for _, ver := range []string{"1.8.4", "1.9.1"} {
+	for _, ver := range []string{"1.8.4", "1.8.5", "1.9.1", "1.9.2"} {
 		e := []string{"GO_VERSION=" + ver, "BOX_INCLUDE_ENV=GO_VERSION"}
 		shouldWork(ctx, e, dir, "box", "box.rb")
 		shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+ver)
@@ -91,9 +91,8 @@ func GoMini() {
 
 	// build and push
 	shouldWork(ctx, nil, dir, "box", "box.rb")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:1.9")
-	// XXX when go 1.9.1, etc comes out
-	//shouldWork(ctx, dir, "docker", "push", "xena/go:1.9.1")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:1.9.2")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:1.9.2")
 }
 
 // Nim builds the image for xena/nim
