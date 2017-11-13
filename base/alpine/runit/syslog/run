@@ -1,3 +1,3 @@
 #!/bin/sh
 
-syslogd -n -O -
+exec syslogd -n -O -
