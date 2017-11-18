@@ -1,7 +1,5 @@
 #!/bin/sh
 
 set -e
-
-runsvdir /etc/system &
-
+s6-svscan /etc/system &
 exec /sbin/tini -- $*
