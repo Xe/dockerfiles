@@ -74,7 +74,7 @@ func Go() {
 
 	dir := filepath.Join(wd, "./lang/go")
 
-	for _, ver := range []string{"1.8.4", "1.8.5", "1.9.1", "1.9.2"} {
+	for _, ver := range []string{"1.8.5", "1.9.2"} {
 		e := []string{"GO_VERSION=" + ver, "BOX_INCLUDE_ENV=GO_VERSION"}
 		shouldWork(ctx, e, dir, "box", "box.rb")
 		shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+ver)
