@@ -1,8 +1,13 @@
 #!/bin/sh
 
+if ! [[ -z "$DEBUG" ]]
+then
+	set -x
+fi
+
 if [[ -f /dev/log ]]
 then
 	sleep 999d
+else
+	exec syslogd -n -O -
 fi
-
-exec syslogd -n -O -
