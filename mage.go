@@ -62,8 +62,10 @@ func Base() {
 	shouldWork(ctx, nil, dir, "docker", "pull", "alpine:edge")
 
 	// build and push
-	shouldWork(ctx, nil, dir, "box", "box.rb")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/alpine:latest", ".")
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/alpine:latest")
+
+	qod.Printlnf("built and pushed xena/alpine")
 }
 
 // Go builds the 'thick' go image xena/go.
@@ -78,6 +80,8 @@ func Go() {
 		e := []string{"GO_VERSION=" + ver, "BOX_INCLUDE_ENV=GO_VERSION"}
 		shouldWork(ctx, e, dir, "box", "box.rb")
 		shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+ver)
+
+		qod.Printlnf("Built and pushed image for Go xena/go:%s", ver)
 	}
 }
 
@@ -89,10 +93,14 @@ func GoMini() {
 
 	dir := filepath.Join(wd, "./lang/go-mini")
 
+	const miniVersion = "1.9.2"
+
 	// build and push
 	shouldWork(ctx, nil, dir, "box", "box.rb")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:1.9.2")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:1.9.2")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:"+miniVersion)
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+miniVersion)
+
+	qod.Printlnf("built image xena/go-mini:%s", miniVersion)
 }
 
 // Nim builds the image for xena/nim
@@ -103,7 +111,11 @@ func Nim() {
 
 	dir := filepath.Join(wd, "./lang/nim")
 
+	const ver = "0.17.2"
+
 	// build and push
 	shouldWork(ctx, nil, dir, "box", "box.rb")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:0.17.2")
+	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:"+ver)
+
+	qod.Printlnf("build image xena/nim:%s", ver)
 }

@@ -1,8 +1,0 @@
-#!/bin/sh
-
-echo "adding Xeserv CA"
-
-apk add wget
-wget https://xena.greedo.xeserv.us/files/ca.pem -O /usr/local/share/ca-certificates/xeserv_ca.pem
-update-ca-certificates
-apk del wget
