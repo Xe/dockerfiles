@@ -5,9 +5,9 @@ then
 	set -x
 fi
 
-if [[ -f /dev/log ]]
+if ! [[ -f /dev/log ]]
 then
-	sleep 999d
-else
-	exec syslogd -n -O -
+	return 125
 fi
+
+exec syslogd -n -O -
