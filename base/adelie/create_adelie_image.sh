@@ -3,7 +3,7 @@
 set +e
 set +x
 
-version=1.0-alpha3
+version=1.0-alpha4
 
 mkdir adelie
 cd adelie

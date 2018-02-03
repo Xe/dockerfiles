@@ -50,6 +50,15 @@ func shouldWork(ctx context.Context, env []string, dir string, cmdName string, a
 	qod.ANE(err)
 }
 
+// Vars shows the list of variables and their values.
+func Vars() {
+	qod.Printlnf("go version: %v", goVersion)
+	qod.Printlnf("nim version: %v\n", nimVersion)
+
+	qod.Printlnf("dateTag: %v", dateTag)
+	qod.Printlnf("wd: %v", wd)
+}
+
 // All builds every image in order.
 func All() {
 	// Base image
@@ -90,7 +99,6 @@ func Go() {
 	mg.Deps(GoMini)
 
 	dir := filepath.Join(wd, "./lang/go")
-
 	dateSub := "xena/go:" + goVersion + "-" + dateTag
 
 	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go:"+goVersion, "-t", dateSub, ".")
@@ -107,7 +115,6 @@ func GoMini() {
 	defer cancel()
 
 	dir := filepath.Join(wd, "./lang/go-mini")
-
 	dateSub := "xena/go-mini:" + goVersion + "-" + dateTag
 
 	// build and push
@@ -125,10 +132,12 @@ func Nim() {
 	defer cancel()
 
 	dir := filepath.Join(wd, "./lang/nim")
+	dateSub := "xena/nim:" + nimVersion + "-" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "box", "box.rb")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/nim:"+nimVersion, "-t", dateSub, ".")
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:"+nimVersion)
+	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
 	qod.Printlnf("build image xena/nim:%s", nimVersion)
 }
