@@ -10,3 +10,5 @@ COPY ./entrypoint.sh /usr/sbin/entrypoint.sh
 ENTRYPOINT ["sh", "/usr/sbin/entrypoint.sh"]
 
 COPY svc/ /etc/system
+
+LABEL distro Alpine Linux
