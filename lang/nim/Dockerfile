@@ -1,7 +1,7 @@
 FROM xena/alpine
 
 ENV PATH=$PATH:/opt/nim/bin:/root/.nimble/bin
-ENV NIM_VERSION 0.17.2
+ENV NIM_VERSION 0.18.0
 ENV NIM_DOWNLOAD_URL http://nim-lang.org/download/nim-$NIM_VERSION.tar.xz
 
 RUN apk add --no-cache --virtual nim-compiler-deps libc-dev gcc curl libgcc git perl xz tar && \
