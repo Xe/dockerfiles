@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	goVersion  = "1.10.1"
+	goVersion  = "1.10.3"
 	nimVersion = "0.18.0"
 )
 
@@ -101,7 +101,7 @@ func Go() {
 	dir := filepath.Join(wd, "./lang/go")
 	dateSub := "xena/go:" + goVersion + "-" + dateTag
 
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go:"+goVersion, "-t", dateSub, ".")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
@@ -118,7 +118,7 @@ func GoMini() {
 	dateSub := "xena/go-mini:" + goVersion + "-" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go-mini:"+goVersion, "-t", dateSub, ".")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go-mini:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
