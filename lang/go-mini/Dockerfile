@@ -1,10 +1,16 @@
 FROM xena/alpine AS build
 
-ARG version=1.10.3
+ARG version=1.11
 
 RUN apk add --no-cache go build-base git
-RUN go get -d golang.org/x/build/version/go${version} \
- && go build -o /go golang.org/x/build/version/go${version}
+
+# XXX(Xe): fix this for now
+#RUN go get -d golang.org/x/build/version/go${version} \
+# && go build -o /go golang.org/x/build/version/go${version}
+COPY main.go /tmp/go/main.go
+COPY vendor/ /root/go/src
+RUN go build -o /go /tmp/go/main.go
+# </XXX>
 
 FROM xena/alpine
 
