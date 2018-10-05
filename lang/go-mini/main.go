@@ -3,5 +3,5 @@ package main
 import "golang.org/x/build/version"
 
 func main() {
-	version.Run("go1.11")
+	version.Run("go1.11.1")
 }
