@@ -49,7 +49,7 @@ func Run(version string) {
 	}
 
 	if _, err := os.Stat(filepath.Join(root, unpackedOkay)); err != nil {
-		log.Fatalf("%s: not downloaded. Run '%s download' to install to %v", version, version, root)
+		log.Fatalf("%s: not downloaded. Run '%s download' to install to %v", version, os.Args[0], root)
 	}
 
 	gobin := filepath.Join(root, "bin", "go"+exe())
@@ -92,6 +92,7 @@ func install(targetDir, version string) error {
 	}
 	base := path.Base(goURL)
 	archiveFile := filepath.Join(targetDir, base)
+	defer os.RemoveAll(archiveFile)
 	if fi, err := os.Stat(archiveFile); err != nil || fi.Size() != res.ContentLength {
 		if err != nil && !os.IsNotExist(err) {
 			// Something weird. Don't try to download.
@@ -122,7 +123,7 @@ func install(targetDir, version string) error {
 	if err := ioutil.WriteFile(filepath.Join(targetDir, unpackedOkay), nil, 0644); err != nil {
 		return err
 	}
-	log.Printf("Success. You may now run '%v'", version)
+	log.Printf("Success. You may now run '%v'", os.Args[0])
 	return nil
 }
 
@@ -387,7 +388,8 @@ func versionArchiveURL(version string) (string, error) {
 	if goos == "linux" && runtime.GOARCH == "arm" {
 		arch = "armv6l"
 	}
-	return "https://storage.googleapis.com/golang/" + version + "." + goos + "-" + arch + ext, nil
+	// https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+	return "https://dl.google.com/go/" + version + "." + goos + "-" + arch + ext, nil
 }
 
 const caseInsensitiveEnv = runtime.GOOS == "windows"
@@ -408,7 +410,7 @@ func goroot(version string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to get home directory: %v", err)
 	}
-	return filepath.Join(home, "sdk", version), nil
+	return filepath.Join(home, ".ko", "installed", version), nil
 }
 
 func homedir() (string, error) {
@@ -448,6 +450,6 @@ func (uat userAgentTransport) RoundTrip(r *http.Request) (*http.Response, error)
 		// Strip the SHA hash and date. We don't want spaces or other tokens (see RFC2616 14.43)
 		version = "devel"
 	}
-	r.Header.Set("User-Agent", "golang-x-build-version/"+version)
+	r.Header.Set("User-Agent", "github-com-Xe-x/"+version)
 	return uat.rt.RoundTrip(r)
 }

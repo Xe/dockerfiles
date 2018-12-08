@@ -1,0 +1,4 @@
+# github.com/Xe/x v0.0.0-20181208164426-89a18d1e99ec
+github.com/Xe/x/version
+# golang.org/x/build v0.0.0-20181004175654-90ec83e7f349
+golang.org/x/build/envutil

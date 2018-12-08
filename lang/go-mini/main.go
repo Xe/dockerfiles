@@ -1,7 +1,11 @@
 package main
 
-import "golang.org/x/build/version"
+import (
+	"os"
+
+	"github.com/Xe/x/version"
+)
 
 func main() {
-	version.Run("go1.11.1")
+	version.Run(os.Getenv("GO_VERSION"))
 }
