@@ -7,5 +7,5 @@ import (
 )
 
 func main() {
-	version.Run(os.Getenv("GO_VERSION"))
+	version.Run("go" + os.Getenv("GO_VERSION"))
 }

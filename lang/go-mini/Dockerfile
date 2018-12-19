@@ -4,12 +4,9 @@ ARG version=1.11
 
 RUN apk add --no-cache go build-base git
 
-# XXX(Xe): fix this for now
-#RUN go get -d golang.org/x/build/version/go${version} \
-# && go build -o /go golang.org/x/build/version/go${version}
-COPY main.go /tmp/go/main.go
-RUN go build -mod=vendor -o /go /tmp/go/main.go
-# </XXX>
+WORKDIR /tmp/go
+COPY . .
+RUN go build -v -mod=vendor -o /go
 
 FROM xena/alpine
 

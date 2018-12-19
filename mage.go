@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	goVersion  = "1.11.1"
+	goVersion  = "1.11.2"
 	nimVersion = "0.19.0"
 )
 
@@ -105,7 +105,7 @@ func Go() {
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
-	qod.Printlnf("Built and pushed image for Go xena/go:%s", goVersion)
+	qod.Printlnf("Built and pushed image for Go xena/go:%s %s", goVersion, dateSub)
 }
 
 // GoMini builds the 'mini' version of the compiler using golang.org/x/build/version.
@@ -122,7 +122,7 @@ func GoMini() {
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
-	qod.Printlnf("built image xena/go-mini:%s", goVersion)
+	qod.Printlnf("built image xena/go-mini:%s %s", goVersion, dateSub)
 }
 
 // Nim builds the image for xena/nim
