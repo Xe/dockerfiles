@@ -6,5 +6,6 @@ RUN tar -xzf /wasmception.tar.gz
 
 FROM xena/alpine
 COPY --from=build /wasmception /wasmception
-RUN apk add --no-cache libstdc++ libexecinfo
-ENV PATH $PATH:/wasmception/dist/bin
+RUN apk add --no-cache libstdc++ libexecinfo 
+ENV PATH $PATH:/wasmception/dist/bin:/wasmception/sysroot/bin
+ENV CLANG_OPTIONS --sysroot=/wasmception/sysroot -fdebug-prefix-map=/wasmception=wasmception://v0.2
