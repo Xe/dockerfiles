@@ -1,0 +1,9 @@
+SocksPort 0
+HiddenServiceNonAnonymousMode 1
+HiddenServiceSingleHopMode 1
+HiddenServiceDir /data/svc
+HiddenServiceVersion 3
+HiddenServicePort 80 172.17.0.1:80
+HiddenServicePort 443 172.17.0.1:443
+SafeLogging 1
+Log notice stdout
