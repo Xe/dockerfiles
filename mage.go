@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	goVersion  = "1.11.5"
+	goVersion  = "1.12.1"
 	nimVersion = "0.19.0"
 )
 
