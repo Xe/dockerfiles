@@ -18,7 +18,7 @@ import (
 
 const (
 	goVersion  = "1.12.1"
-	nimVersion = "0.19.0"
+	nimVersion = "0.19.4"
 )
 
 var (
@@ -135,7 +135,7 @@ func Nim() {
 	dateSub := "xena/nim:" + nimVersion + "-" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/nim:"+nimVersion, "-t", dateSub, ".")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/nim:"+nimVersion, "-t", dateSub, "--build-arg", "nim_version="+nimVersion, ".")
 	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:"+nimVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
