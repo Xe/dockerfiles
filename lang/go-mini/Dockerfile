@@ -1,6 +1,6 @@
 FROM xena/alpine AS build
 
-ARG version=1.11
+ARG version=1.12.5
 
 RUN apk add --no-cache go build-base git
 
