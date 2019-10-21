@@ -1,6 +1,6 @@
 FROM xena/alpine
 
-ARG nim_version=0.20.2
+ARG nim_version=1.0.0
 
 ENV PATH=$PATH:/opt/nim/bin:/root/.nimble/bin
 
