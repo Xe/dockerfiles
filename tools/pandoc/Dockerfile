@@ -1,5 +1,4 @@
 FROM xena/alpine AS build
-
 RUN apk add --no-cache ghc cabal wget alpine-sdk zlib-dev
 RUN cabal update && cabal install pandoc ||:
 

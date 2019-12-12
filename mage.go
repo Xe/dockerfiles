@@ -83,7 +83,10 @@ func All() {
 	mg.Deps(Base)
 
 	// Programming language specific images
-	mg.Deps(Go, Nim, Zig)
+	mg.Deps(Go, Nim, Zig, V)
+
+	// Tools
+	mg.Deps(MDBook, Pandoc)
 
 	qod.Printlnf("all images built :)")
 }
@@ -158,4 +161,40 @@ func Nim() {
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
 	qod.Printlnf("build image xena/nim:%s", nimVersion)
+}
+
+// Pandoc builds pandoc
+func Pandoc() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shouldWork(
+		ctx,
+		nil,
+		"./tools/pandoc",
+		"docker",
+		"build",
+		"-t",
+		"xena/pandoc:latest",
+		".",
+	)
+	shouldWork(ctx, nil, "", "docker", "push", "xena/pandoc:latest")
+}
+
+// MDBook builds mdbook
+func MDBook() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shouldWork(
+		ctx,
+		nil,
+		"./tools/mdbook",
+		"docker",
+		"build",
+		"-t",
+		"xena/mdbook:latest",
+		".",
+	)
+	shouldWork(ctx, nil, "", "docker", "push", "xena/mdbook:latest")
 }
