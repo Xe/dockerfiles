@@ -58,6 +58,16 @@ func Zig() {
 	shouldWork(ctx, nil, "./lang/zig", "sh", "./make_image.sh")
 }
 
+// V builds the master version of v (https://vlang.io)
+func V() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shouldWork(ctx, nil, "./lang/v", "docker", "build", "-t", "xena/vlang:latest", "-t", "xena/vlang:"+dateTag, ".")
+	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:latest")
+	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:"+dateTag)
+}
+
 // Vars shows the list of variables and their values.
 func Vars() {
 	qod.Printlnf("go version: %v", goVersion)
@@ -73,7 +83,7 @@ func All() {
 	mg.Deps(Base)
 
 	// Programming language specific images
-	mg.Deps(Go, Nim)
+	mg.Deps(Go, Nim, Zig)
 
 	qod.Printlnf("all images built :)")
 }
