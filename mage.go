@@ -50,6 +50,14 @@ func shouldWork(ctx context.Context, env []string, dir string, cmdName string, a
 	qod.ANE(err)
 }
 
+// Zig creates the latest nightly release of zig.
+func Zig() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shouldWork(ctx, nil, "./lang/zig", "sh", "./make_image.sh")
+}
+
 // Vars shows the list of variables and their values.
 func Vars() {
 	qod.Printlnf("go version: %v", goVersion)
