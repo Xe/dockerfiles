@@ -63,7 +63,7 @@ func V() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	shouldWork(ctx, nil, "./lang/v", "docker", "build", "-t", "xena/vlang:latest", "-t", "xena/vlang:"+dateTag, ".")
+	shouldWork(ctx, nil, "./lang/v", "docker", "build", "--no-cache", "-t", "xena/vlang:latest", "-t", "xena/vlang:"+dateTag, ".")
 	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:latest")
 	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:"+dateTag)
 }
