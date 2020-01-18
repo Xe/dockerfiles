@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	goVersion  = "1.13.5"
+	goVersion  = "1.13.6"
 	nimVersion = "1.0.4"
 )
 
@@ -83,7 +83,7 @@ func All() {
 	mg.Deps(Base)
 
 	// Programming language specific images
-	mg.Deps(Go, Nim, Zig, V)
+	mg.Deps(Go, Nim, Zig, V, Elm)
 
 	// Tools
 	mg.Deps(MDBook, Pandoc)
