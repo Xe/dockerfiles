@@ -181,6 +181,24 @@ func Pandoc() {
 	shouldWork(ctx, nil, "", "docker", "push", "xena/pandoc:latest")
 }
 
+// Elm builds an image for https://elm-lang.org
+func Elm() {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	shouldWork(
+		ctx,
+		nil,
+		"./lang/elm",
+		"docker",
+		"build",
+		"-t",
+		"xena/elm:0.19.1",
+		".",
+	)
+	shouldWork(ctx, nil, "", "docker", "push", "xena/elm:0.19.1")
+}
+
 // MDBook builds mdbook
 func MDBook() {
 	ctx, cancel := context.WithCancel(context.Background())
