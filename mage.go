@@ -17,8 +17,8 @@ import (
 )
 
 const (
-	goVersion  = "1.13.6"
-	nimVersion = "1.0.4"
+	goVersion  = "1.13.7"
+	nimVersion = "1.0.6"
 )
 
 var (
