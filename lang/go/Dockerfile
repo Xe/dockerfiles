@@ -1,5 +1,5 @@
 ARG version
 
-FROM xena/go-mini:$version
+FROM ghcr.io/xe/dockerfiles/go-mini:$version
 
 RUN go download

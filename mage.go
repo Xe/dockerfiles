@@ -17,8 +17,8 @@ import (
 )
 
 const (
-	goVersion  = "1.15"
-	nimVersion = "1.0.6"
+	goVersion  = "1.15.1"
+	nimVersion = "1.2.6"
 )
 
 var (
@@ -63,9 +63,9 @@ func V() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	shouldWork(ctx, nil, "./lang/v", "docker", "build", "--no-cache", "-t", "xena/vlang:latest", "-t", "xena/vlang:"+dateTag, ".")
-	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:latest")
-	shouldWork(ctx, nil, "", "docker", "push", "xena/vlang:"+dateTag)
+	shouldWork(ctx, nil, "./lang/v", "docker", "build", "--no-cache", "-t", "ghcr.io/xe/dockerfiles/vlang:latest", "-t", "ghcr.io/xe/dockerfiles/vlang:"+dateTag, ".")
+	shouldWork(ctx, nil, "", "docker", "push", "ghcr.io/xe/dockerfiles/vlang:latest")
+	shouldWork(ctx, nil, "", "docker", "push", "ghcr.io/xe/dockerfiles/vlang:"+dateTag)
 }
 
 // Vars shows the list of variables and their values.
@@ -101,14 +101,14 @@ func Base() {
 	// pull base alpine edge image for rebuilds
 	shouldWork(ctx, nil, dir, "docker", "pull", "alpine:edge")
 
-	dateSub := "xena/alpine:" + dateTag
+	dateSub := "ghcr.io/xe/dockerfiles/alpine:" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/alpine:latest", "-t", dateSub, ".")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/alpine:latest")
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "ghcr.io/xe/dockerfiles/alpine:latest", "-t", dateSub, ".")
+	shouldWork(ctx, nil, dir, "docker", "push", "ghcr.io/xe/dockerfiles/alpine:latest")
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
-	qod.Printlnf("built and pushed xena/alpine")
+	qod.Printlnf("built and pushed ghcr.io/xe/dockerfiles/alpine")
 }
 
 // Go builds the 'thick' go image xena/go.
@@ -120,13 +120,13 @@ func Go() {
 	mg.Deps(GoMini)
 
 	dir := filepath.Join(wd, "./lang/go")
-	dateSub := "xena/go:" + goVersion + "-" + dateTag
+	dateSub := "ghcr.io/xe/dockerfiles/go:" + goVersion + "-" + dateTag
 
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/go:"+goVersion)
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "ghcr.io/xe/dockerfiles/go:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
+	shouldWork(ctx, nil, dir, "docker", "push", "ghcr.io/xe/dockerfiles/go:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
-	qod.Printlnf("Built and pushed image for Go xena/go:%s %s", goVersion, dateSub)
+	qod.Printlnf("Built and pushed image for Go ghcr.io/xe/dockerfiles/go:%s %s", goVersion, dateSub)
 }
 
 // GoMini builds the 'mini' version of the compiler using golang.org/x/build/version.
@@ -136,14 +136,14 @@ func GoMini() {
 	defer cancel()
 
 	dir := filepath.Join(wd, "./lang/go-mini")
-	dateSub := "xena/go-mini:" + goVersion + "-" + dateTag
+	dateSub := "ghcr.io/xe/dockerfiles/go-mini:" + goVersion + "-" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/go-mini:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/go-mini:"+goVersion)
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "ghcr.io/xe/dockerfiles/go-mini:"+goVersion, "-t", dateSub, "--build-arg", "version="+goVersion, ".")
+	shouldWork(ctx, nil, dir, "docker", "push", "ghcr.io/xe/dockerfiles/go-mini:"+goVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
-	qod.Printlnf("built image xena/go-mini:%s %s", goVersion, dateSub)
+	qod.Printlnf("built image ghcr.io/xe/dockerfiles/go-mini:%s %s", goVersion, dateSub)
 }
 
 // Nim builds the image for xena/nim
@@ -153,11 +153,11 @@ func Nim() {
 	defer cancel()
 
 	dir := filepath.Join(wd, "./lang/nim")
-	dateSub := "xena/nim:" + nimVersion + "-" + dateTag
+	dateSub := "ghcr.io/xe/dockerfiles/nim:" + nimVersion + "-" + dateTag
 
 	// build and push
-	shouldWork(ctx, nil, dir, "docker", "build", "-t", "xena/nim:"+nimVersion, "-t", dateSub, "--build-arg", "nim_version="+nimVersion, ".")
-	shouldWork(ctx, nil, dir, "docker", "push", "xena/nim:"+nimVersion)
+	shouldWork(ctx, nil, dir, "docker", "build", "-t", "ghcr.io/xe/dockerfiles/nim:"+nimVersion, "-t", dateSub, "--build-arg", "nim_version="+nimVersion, ".")
+	shouldWork(ctx, nil, dir, "docker", "push", "ghcr.io/xe/dockerfiles/nim:"+nimVersion)
 	shouldWork(ctx, nil, dir, "docker", "push", dateSub)
 
 	qod.Printlnf("build image xena/nim:%s", nimVersion)
@@ -175,10 +175,10 @@ func Pandoc() {
 		"docker",
 		"build",
 		"-t",
-		"xena/pandoc:latest",
+		"ghcr.io/xe/dockerfiles/pandoc:latest",
 		".",
 	)
-	shouldWork(ctx, nil, "", "docker", "push", "xena/pandoc:latest")
+	shouldWork(ctx, nil, "", "docker", "push", "ghcr.io/xe/dockerfiles/pandoc:latest")
 }
 
 // Elm builds an image for https://elm-lang.org
@@ -193,10 +193,10 @@ func Elm() {
 		"docker",
 		"build",
 		"-t",
-		"xena/elm:0.19.1",
+		"ghcr.io/xe/dockerfiles/elm:0.19.1",
 		".",
 	)
-	shouldWork(ctx, nil, "", "docker", "push", "xena/elm:0.19.1")
+	shouldWork(ctx, nil, "", "docker", "push", "ghcr.io/xe/dockerfiles/elm:0.19.1")
 }
 
 // MDBook builds mdbook
@@ -211,8 +211,8 @@ func MDBook() {
 		"docker",
 		"build",
 		"-t",
-		"xena/mdbook:latest",
+		"ghcr.io/xe/dockerfiles/mdbook:latest",
 		".",
 	)
-	shouldWork(ctx, nil, "", "docker", "push", "xena/mdbook:latest")
+	shouldWork(ctx, nil, "", "docker", "push", "ghcr.io/xe/dockerfiles/mdbook:latest")
 }
